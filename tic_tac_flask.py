@@ -25,6 +25,10 @@ def algo_play():
 		del board['player'][:]
 		del board['algo'][:]
 		return jsonify(winner = game_winner_player)
+	elif game_winner_player == 'draw':
+		del board['player'][:]
+		del board['algo'][:]
+		return jsonify(winner='draw')
 
 	counter_move = game_state.get_move(opponent_type = 'random')
 	board["algo"].append(counter_move)
