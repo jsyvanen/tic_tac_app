@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" href="{{ url_for('static',filename='styles/tic_tac_format.css') }}" type="text/css" charset="utf-8">
+        <script src="http://code.jquery.com/jquery-1.5.1.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+
+    <body>
+        <table class="board">
+            <tr>
+                <td id="a1" class="cell"></td>
+                <td id="a2" class="cell"></td>
+                <td id="a3" class="cell"></td>
+            </tr>
+            <tr>
+                <td id="b1" class="cell"></td>
+                <td id="b2" class="cell"></td>
+                <td id="b3" class="cell"></td>
+            </tr>
+            <tr>
+                <td id="c1" class="cell"></td>
+                <td id="c2" class="cell"></td>
+                <td id="c3" class="cell"></td>
+            </tr>
+        </table>
+    <script type="text/javascript">
+        $( document ).ready(
+            $(function() {
+              $("td").bind('click', function() {
+                cur_elem = $(this).attr('id');
+                $.getJSON('/algo_play', {
+                  the_move:cur_elem
+                  }, function(data) {
+                        console.log(data["winner"] + " " + data["the_move"])
+                        var algo_move = data["the_move"]
+                        if (data["winner"] == "draw" || data["winner"] == "player" || data["winner"] == "algo") {
+                            $('[id]').each(function () {
+                                $('#' + this.id).removeClass("x");
+                                $('#' + this.id).removeClass("y");
+                                $('#' + this.id).addClass("cell");
+                            });
+                        }
+                        else {
+                            $("#" + cur_elem).removeClass("cell");
+                            $("#" + cur_elem).addClass("x");
+                            $("#" + algo_move).removeClass("cell");
+                            $("#" + algo_move).addClass("y");
+                        }
+                  });
+            });
+        }));
+    </script>
+    </body>
+</html>

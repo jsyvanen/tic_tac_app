@@ -1,0 +1,56 @@
+body {
+    padding: 20px;
+    background-image: url(../images/quiqup_logo.png);
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+h1 {
+    font-size: 175%;
+    margin-bottom: 0.5em;
+}
+
+.x {
+    background-color: #6BE30D;
+}
+
+.y {
+    background-color: #0FB6EC;
+}
+
+.cell {
+    background-color:#EBEDEE;
+}
+
+.cell:hover {
+   background-color: #6BE30D; 
+}
+
+.board {
+    float: center;
+    margin: auto;
+    margin-top: 200px;
+}
+
+.board td {
+    height: 120px;
+    text-align: center;
+    vertical-align: middle;
+    width: 120px;
+}
+
+.board #a1,
+.board #a2,
+.board #b1,
+.board #b2,
+.board #c1,
+.board #c2 {
+            border-right: 2px solid #6BE30D;
+            }
+
+.board #b1,
+.board #b2,
+.board #b3 {
+            border-top: 2px solid #6BE30D;
+            border-bottom: 2px solid #6BE30D;
+            }
