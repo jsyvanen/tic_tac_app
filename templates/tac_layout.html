@@ -32,7 +32,7 @@
                 $.getJSON('/algo_play', {
                   the_move:cur_elem
                   }, function(data) {
-                        console.log(data["winner"] + " " + data["the_move"])
+                        //console.log(data["winner"] + " " + data["the_move"])
                         var algo_move = data["the_move"]
                         if (data["winner"] == "draw" || data["winner"] == "player" || data["winner"] == "algo") {
                             $('[id]').each(function () {

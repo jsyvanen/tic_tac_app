@@ -20,7 +20,6 @@ def algo_play():
 	board['player'].append(the_move)
 	game_state = tac_game(board)
 	game_winner_player = game_state.check_winner(board)[0]
-	#print game_winner_player
 	if game_winner_player == 'player':
 		del board['player'][:]
 		del board['algo'][:]
@@ -30,10 +29,9 @@ def algo_play():
 		del board['algo'][:]
 		return jsonify(winner='draw')
 
-	counter_move = game_state.get_move(opponent_type = 'random')
+	counter_move = game_state.get_move(opponent_type = 'minmax')
 	board["algo"].append(counter_move)
 	game_winner_algo = game_state.check_winner(board)[0]
-	print counter_move,game_winner_algo
 	if game_winner_algo == 'algo':
 		del board['player'][:]
 		del board['algo'][:]
@@ -50,7 +48,9 @@ def algo_play():
 
 @tac_app.route("/")
 def main():
+	del board['player'][:]
+	del board['algo'][:]
 	return render_template('tac_layout.html')
 
 if __name__ == '__main__':
-	tac_app.run()
+	tac_app.run(threaded=True)

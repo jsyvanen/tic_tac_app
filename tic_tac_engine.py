@@ -26,7 +26,6 @@ class tac_game(object):
             board_state = list(permuter(board[player],3))
             for pos_win_combo in board_state:
                 if list(pos_win_combo) in self.winning_combos:
-                    #print 'winner ',player
                     return (player,1 if player == 'algo' else -1)
                 else:
                     continue
@@ -48,7 +47,6 @@ class tac_game(object):
             return self.iterate_moves(self.board,'algo')
             
     def get_choice_set(self,board):
-        #print [a for a in self.complete_board if a not in board['player'] and a not in board['algo']]
         return [a for a in self.complete_board if a not in board['player'] and a not in board['algo']]
 
     def augment_state(self,player,move,direction=''):
@@ -63,15 +61,14 @@ class tac_game(object):
         else:
             return 'algo'
     
-    # NOT WORKING
     def minimax(self,game_state,player):
         game_winner,score = self.check_winner(game_state)
         if game_winner in ('draw','algo','player'):
             return score
         if player == 'player':
-            best_move = float('-inf')
+            best_move = -2
         else:
-            best_move = float('inf')
+            best_move = 2
         choice_set = self.get_choice_set(game_state)
         player = self.switch_player(player)
         for move in choice_set:
@@ -84,20 +81,23 @@ class tac_game(object):
             else:
                 if opp_ret_val < best_move:
                     best_move = opp_ret_val
-            print player,' best move ',best_move
-            return best_move
+        return best_move
     
     def iterate_moves(self,game_state,player):
         game_winner,score = self.check_winner(game_state)
         baseline_score = -2
         choice_set = self.get_choice_set(game_state)
+        if 'b2' in choice_set:
+            return 'b2'
+        elif 'b2' not in choice_set and len(choice_set) == 8:
+            return rdm_choice(['a1','a3','c1','c3'])
         return_moves = []
         for move in choice_set:
             self.augment_state(player,move,direction='progress')
             opp_ret_val = self.minimax(game_state,player)
             self.augment_state(player,move,direction='regress')
-            if player == 'algo':
-                if opp_ret_val >= baseline_score:
-                    baseline_score = opp_ret_val
-                    return_moves.append(move)
-        return rdm_choice(return_moves)
+            if opp_ret_val >= baseline_score:
+                baseline_score = opp_ret_val
+                return_moves.append((move,opp_ret_val))
+        best_return_moves = [a[0] for a in return_moves if a[1] == max([a[1] for a in return_moves])]
+        return rdm_choice(best_return_moves)
