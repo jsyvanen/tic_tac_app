@@ -36,6 +36,8 @@ def algo_play():
 		return jsonify(winner = game_winner_algo,the_move = counter_move)
 
 	elif game_winner_algo == 'draw':
+		del board['player'][:]
+		del board['algo'][:]
 		return jsonify(winner = 'draw')
 
 	else:
